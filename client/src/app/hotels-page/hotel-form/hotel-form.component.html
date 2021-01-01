@@ -1,0 +1,272 @@
+<div class="page-title">
+    <h4>
+        <a routerLink="/hotels">Отели</a>
+        <i class="material-icons">keyboard_arrow_right</i>
+        {{isNew? 'Добавить':'Редактировать'}} отель
+    </h4>
+    <span>
+        <button 
+        class="btn btn-small red" 
+        (click)="deleteHotel()" 
+        *ngIf="!isNew"
+        >
+          <i class="material-icons">delete</i>
+        </button>
+      </span>
+</div>
+
+<div class="row">
+    <form class="col s12 l7" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="input-field">
+            <input 
+            formControlName="name"
+            id="name" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched}"
+            >
+            <label for="name">Название</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('name').invalid && form.get('name').touched"
+            >
+        <span  *ngIf="form.get('name').errors['required']">
+            Имя категории не может быть пустым
+        </span>
+        </span>
+        </div>
+
+        <div class="input-field ">
+            <textarea id="text"  formControlName="text" class="materialize-textarea" ></textarea>
+            <label for="text">Описание</label>                  
+      </div>
+
+      <div class="row">
+        <div class="input-field  col s3"> 
+            <input 
+            formControlName="contry"
+            id="contry" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('contry').invalid && form.get('contry').touched}"
+            >
+            <label for="contry">Страна</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('contry').invalid && form.get('contry').touched"
+            >
+        <span  *ngIf="form.get('contry').errors['required']">Страна не может быть пустой</span>
+        <span *ngIf="form.get('contry').errors['pattern']">Страна может состоять только из букв</span>
+        </span>
+        </div>
+        <div class="input-field  col s3"> 
+            <input 
+            formControlName="town"
+            id="town" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('town').invalid && form.get('town').touched}"
+            >
+            <label for="town">Город</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('town').invalid && form.get('town').touched"
+            >
+            <span *ngIf="form.get('town').errors['pattern']">Город может состоять только из букв</span>
+        <span  *ngIf="form.get('town').errors['required']">
+            Город не может быть пустым
+        </span>
+        </span>
+        </div>
+        <div class="input-field  col s4"> 
+            <input 
+            formControlName="street"
+            id="street" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('street').invalid && form.get('street').touched}"
+            >
+            <label for="street">Улица</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('street').invalid && form.get('street').touched"
+            >
+        <span  *ngIf="form.get('street').errors['required']">
+            Улица не может быть пустой
+        </span>
+        </span>
+        </div>
+        <div class="input-field  col s1">
+            <input 
+                id="number" type="number" min="1"
+                formControlName="number"                
+                >
+                <label for="number">№</label>
+                <span 
+                *ngIf="form.get('number').invalid && form.get('number').touched"
+                class="helper-text red-text">
+            Пожалуйста, введите корректный номер. Минимальное значение 1
+            </span>
+         </div>
+        <div class="input-field  col s1">
+            <input 
+            formControlName="corpus"
+            id="corpus" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('corpus').invalid && form.get('corpus').touched}"
+            >
+            <label for="corpus">Корпус</label>             
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field  col s6">            
+                <input 
+                formControlName="site"
+                id="site" 
+                type="text"
+                 [ngClass]="{'invalid':form.get('site').invalid && form.get('site').touched}"
+                >            
+                <label for="site">Сайт</label>
+                <span 
+                class="helper-text red-text"
+                *ngIf="form.get('site').invalid && form.get('site').touched">                           
+                <!-- <span *ngIf="form.get('site').errors['pattern']">Сайт может состоять только из латинских букв</span> -->
+                <span *ngIf="form.get('site').errors['minlength'] 
+                && form.get('site').errors['minlength']['requiredLength']">
+                Слишком коротко. Введите сайт полностью</span>            
+                </span>            
+        </div>
+        <div class="input-field  col s6">
+            
+                <input 
+                id="stars" type="number" min="1"
+                formControlName="stars"
+                [ngClass]="{'invalid': form.get('stars').invalid && form.get('stars').touched}"
+                >
+                <label for="stars">Звезды</label>
+                <span 
+                *ngIf="form.get('stars').invalid && form.get('stars').touched"
+                class="helper-text red-text">
+                Пожалуйста, введите корректное число звезд.
+                <span  *ngIf="form.get('stars').errors['required']">Звезды не могут отсутствовать</span>
+                <span *ngIf="form.get('stars').errors['min']                 ">
+               Минимальное значение 0.01.</span> 
+                <span *ngIf="form.get('stars').errors['max'] 
+                ">
+                Максимальное значение 5.</span>           
+            
+            </span>
+            
+        </div>
+      </div>
+
+      <div class="input-field">
+        <input 
+        formControlName="phone"
+        id="phone" 
+        type="tel"            
+         [ngClass]="{'invalid':form.get('phone').invalid && form.get('phone').touched}"
+        >
+        <label for="phone">Телефон</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('phone').invalid && form.get('phone').touched">
+        <span *ngIf="form.get('phone').errors['required']">Телефон не должен быть пустым.</span> 
+        <span *ngIf="form.get('phone').errors['minlength'] 
+        && form.get('phone').errors['minlength']['requiredLength']">
+        Пароль должен быть больше {{form.get('phone').errors['minlength']['requiredLength']}} символов.
+        Сейчас {{form.get('phone').errors['minlength']['actualLength']}}.</span>            
+        <span *ngIf="form.get('phone').errors['maxlength'] 
+        && form.get('phone').errors['maxlength']['requiredLength']">
+        Пароль должен быть больше {{form.get('phone').errors['maxlength']['requiredLength']}} символов.
+        Сейчас {{form.get('phone').errors['maxlength']['actualLength']}}.</span>
+        <span *ngIf="form.get('phone').errors['pattern']">Телефон должен состоять из цифр</span> 
+        </span>
+    </div>
+
+
+
+
+
+        <div>
+            <input
+            type="file"
+            class="dn"
+            (change)="onFileUpload($event)"
+            #input
+            >
+            <button 
+            (click)="triggerClick()"
+            [disabled]="form.disabled"
+            type="button"
+            class="waves-effect waves-light btn orange lighten-2 mb2">
+                <i class="material-icons left">backup</i>
+                Загрузить изображение
+            </button>
+            
+        </div>
+
+        <div>
+            <button 
+            type="submit"
+            [disabled]="form.invalid||form.disabled"
+            class="waves-effect waves-light btn">
+                Сохранить изменения
+            </button>
+        </div>
+    <div><p><br></p></div>
+        <div *ngIf="!loading; else loader">
+            <div *ngIf="hotelServicesCommon.length!==0;else empty">    
+                      <div
+                      formArrayName="hotelServiceArray"
+                      *ngFor="let day of form.get('hotelServiceArray')['controls']; let idx = index;">
+                      <div [formGroupName]="idx">      
+           <div class="row z-depth-1">
+          <span class="col s1">                      
+              <label>
+                <input type="checkbox" class="input-field filled-in"  formControlName="typeServ"/>      
+                <span> </span>
+              </label>                
+            </span>  
+            <span class="col s8">                      
+              <label>
+                <input type="text" class="input-field"  formControlName="nameHotelService" readonly/>
+                <span> </span>
+              </label>                
+            </span>                     
+              <span class="col s3">
+                  <div class="switch">
+                      <label>
+                        Бесплатно
+                        <input type="checkbox"  class="input-field" formControlName="cost">
+                        <span class="lever"></span>
+                        Платно
+                      </label>
+                    </div>
+              </span>
+          </div>
+          </div>  
+          </div>  
+          </div>
+          <ng-template #empty>
+              <div class="center">Нет записей о услугах</div>
+          </ng-template>        
+          </div>
+          <ng-template #loader>
+          <app-loader></app-loader>
+          </ng-template>
+    </form>
+
+    <div class="col s12 l4 center">
+        <img 
+        class="responsive-img h200"  
+        [src]="imagePreview"
+        *ngIf="imagePreview"
+        >
+    </div>
+</div>
+
+
+
+<app-room-page
+*ngIf="hotel?._id"
+[hotelId]="hotel._id"
+></app-room-page>

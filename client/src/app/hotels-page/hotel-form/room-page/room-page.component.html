@@ -1,0 +1,206 @@
+<div class="row">
+    <div class="col s12">
+        <div class="page-subtitle">
+            <h4>Комнаты:</h4>
+            <button 
+            class="waves-effect waves-light btn grey darken-1 btn-small" 
+            (click)="onAddRoom()"
+            >
+                Добавить комнату
+            </button>
+        </div>
+<div *ngIf="!loading; else loader">
+        <div class="collection" *ngIf="rooms.length!==0;else empty">
+            <a 
+            *ngFor="let room of rooms"
+            class="collection-item collection-item-icon"
+            (click)="onSelectRoom(room)"
+            >
+                <span>
+                {{room.number}}
+                </span>
+                <span>
+                    <i class="material-icons"  (click)="onDeleteRoom($event, room)">delete</i>
+                </span>
+            </a>
+        </div>
+        <ng-template #empty>
+            <div class="center">Комнаты отеля не были добавленны</div>
+        </ng-template>  
+    </div>
+    <ng-template #loader>
+        <app-loader></app-loader>
+    </ng-template>
+    </div>
+</div>
+
+
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="modal" #modal>
+<div class="modal-content row">
+    <h4 class="mb1">Добавить номер отеля</h4>
+    
+    <div class="input-field col s12">
+        <input 
+        formControlName="number"
+        id="number" 
+        type="text"
+         [ngClass]="{'invalid':form.get('number').invalid && form.get('number').touched}"
+        >            
+        <label for="number">Номер комнаты</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('number').invalid && form.get('number').touched">
+        <span *ngIf="form.get('number').errors['required']">Номер комнаты не может быть пустым</span>            
+        </span>
+    </div> 
+    
+
+    <div class="input-field col s12">
+        <input 
+        formControlName="cost"
+        id="number" 
+        type="text"
+         [ngClass]="{'invalid':form.get('cost').invalid && form.get('cost').touched}"
+        >            
+        <label for="cost">Цена номера</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('cost').invalid && form.get('cost').touched">
+        <span *ngIf="form.get('cost').errors['required']">Цена номера не может быть пустой</span>  
+        <span *ngIf="form.get('cost').errors['min']"> Минимальное значение 0.01.</span>           
+        </span>
+    </div>
+
+    <div >
+        <div class="input-field col s4">
+        <input 
+        formControlName="single"
+        id="single" 
+        type="number"
+         [ngClass]="{'invalid':form.get('single').invalid && form.get('single').touched}"
+        >            
+        <label for="single">Количество 1-местных</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('single').invalid && form.get('single').touched">
+        <span *ngIf="form.get('single').errors['min']">Минимальное значение 0.</span>            
+        </span>
+    </div>
+    <div class="input-field col s4">
+        <input 
+        formControlName="double"
+        id="double" 
+        type="number"
+         [ngClass]="{'invalid':form.get('double').invalid && form.get('double').touched}"
+        >            
+        <label for="double">Количество 2-местных</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('double').invalid && form.get('double').touched">
+        <span *ngIf="form.get('double').errors['min']">Минимальное значение 0.</span>            
+        </span>
+    </div>
+    <div class="input-field col s4">
+        <input 
+        formControlName="baby"
+        id="baby" 
+        type="number"
+         [ngClass]="{'invalid':form.get('baby').invalid && form.get('baby').touched}"
+        >            
+        <label for="baby">Количество детских</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('baby').invalid && form.get('baby').touched">
+        <span *ngIf="form.get('baby').errors['min']">Минимальное значение 0.</span>            
+        </span>
+    </div>
+    </div>
+
+    <div
+    formArrayName="timeArray"
+    *ngFor="let moment of form.get('timeArray')['controls']; let idx = index;">
+    <div [formGroupName]="idx">
+      <div class="input-field col s3" >
+          <input id="pos-day"  type="text" formControlName="dateTo">
+          <label for="pos-day">День</label>                
+      </div>
+      <div class="input-field col s3">
+          <input id="pos-time" type="text" formControlName="dateFrom">
+          <label for="pos-time">Время</label>
+      </div>
+      <div class="input-field col s6">
+        
+        <div class="switch">
+            <label>
+              Занято
+              <input type="checkbox" formControlName="statusR">
+              <span class="lever"></span>
+              Свободно
+            </label>
+        </div>
+          
+          </div>
+          <button type="button" class=" btn-small" (click)="deleteMoment(idx)">-</button>
+          <button type="button" class=" btn-small" (click)="addMoment()">+</button>           
+          
+    </div>  
+  </div> 
+
+    <div class="">
+        <div class="input-field  col s6">
+            <select 
+            id="selectedValue"                    
+            multiple                                                      
+            #select>
+              <option value="" disabled unselected>Выберите тип номера</option>
+              <option value="Аппартаменты">Аппартаменты</option>
+              <option value="Квартира" >Квартира</option>
+              <option value="Одиночный">Одиночный</option>
+              <option value="Вилла">Вилла</option>                  
+            </select>
+            <label>Тип номера</label>                    
+          </div>          
+            <div class=" col s6 al ">
+                <input
+                type="file"
+                class="dn"
+                (change)="onFileUpload($event)"
+                #input
+                multiple
+                >
+                <button 
+                (click)="triggerClick()"
+                [disabled]="form.disabled"
+                type="button"
+                class="waves-effect waves-light btn orange lighten-2 mb2">
+                    <i class="material-icons left">backup</i>
+                    Загрузить изображение
+                </button>
+            </div>
+          <div class="col s12  center">
+            <img 
+            class="responsive-img"  
+            [src]="imagePreview"
+            *ngIf="imagePreview"
+            >
+        </div>
+    </div>     
+
+<div class="modal-footer">
+    <button 
+    type="button"
+    (click)="onCancel()"
+    class="modal-action waves-effect waves-black btn-flat"
+    [disabled]="form.disabled"
+    >Отмена</button>
+    <button 
+    class="modal-action btn waves-effect" 
+    type="submit"
+    [disabled]="form.disabled||form.invalid"
+    >Сохранить</button>
+</div>
+</div>
+</div>
+</form>

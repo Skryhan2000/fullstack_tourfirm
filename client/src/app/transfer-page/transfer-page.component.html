@@ -1,0 +1,105 @@
+<div class="page-title">
+    <h4>    
+        Трансфер
+    </h4>  
+</div>
+
+<div class="row">
+    <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="input-field">
+            <input 
+            formControlName="nameDirect"
+            id="nameDirect" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('nameDirect').invalid && form.get('nameDirect').touched}"
+            >
+            <label for="nameDirect">Название направления</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('nameDirect').invalid && form.get('nameDirect').touched"
+            >
+        <span  *ngIf="form.get('nameDirect').errors['required']">
+            Имя направления не может быть пустым
+        </span>
+        </span>
+        </div>     
+
+        <div class="input-field">
+            <input 
+            formControlName="timeFrom"
+            id="timeFrom" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('timeFrom').invalid && form.get('timeFrom').touched}"
+            >
+            <label for="timeFrom">Время отправления</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('timeFrom').invalid && form.get('timeFrom').touched"
+            >
+        <span  *ngIf="form.get('timeFrom').errors['required']">
+            Время не может быть пустым
+        </span>
+        </span>
+        </div>
+
+        <div class="input-field">
+            <input 
+            formControlName="timeTo"
+            id="timeTo" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('timeTo').invalid && form.get('timeTo').touched}"
+            >
+            <label for="timeTo">Время прибытия</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('timeTo').invalid && form.get('timeTo').touched"
+            >
+        <span  *ngIf="form.get('timeTo').errors['required']">
+            Время не может быть пустым
+        </span>
+        </span>
+        </div>
+
+        <div>
+            <button 
+            type="submit"
+            [disabled]="form.invalid||form.disabled"
+            class="waves-effect waves-light btn">
+                Сохранить изменения
+            </button>
+        </div>
+        
+    </form>
+
+    <div class="col s12 l4 center">
+
+        <div class="row">
+            <div class="col s12">             
+           <div *ngIf="!loading; else loader">
+                    <div class="collection" *ngIf="transfers.length!==0;else empty">
+                    <a 
+                    *ngFor="let transfer of transfers"
+                    class="collection-item collection-item-icon"
+                    (click)="onSelectTransfer(transfer)"
+                    >
+                        <span>
+                          {{transfer.nameDirect}}  {{transfer.timeFrom}} {{transfer.timeTo}}
+                        </span>
+                        <span>
+                            <i class="material-icons" (click)="onDeleteTransfer($event, transfer)">delete</i>
+                        </span>
+                    </a>
+                </div>
+                <ng-template #empty>
+                    <div class="center">Нет записей о трансфере</div>
+                </ng-template>        
+            </div>
+            <ng-template #loader>
+                <app-loader></app-loader>
+            </ng-template>
+        </div>   
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,21 @@
+npm update --> 6.14.9
+
+* Обновление до eslink с TSLint
+
+npm install eslint --save-dev
+
+* debug@4.2.0 до до 3.2.7 или 4.3.1
+
+update node
+
+* request@2.88.2
+
+ignor
+
+* fsevents@1.2.13 до fsevents 2
+
+* har-validator@5.1.5:
+
+* urix@0.1.0
+
+* resolve-url@0.2.1

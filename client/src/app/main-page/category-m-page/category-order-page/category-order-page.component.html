@@ -1,0 +1,31 @@
+
+
+<div *ngIf="categoriesTour$ | async as categoriesTour; else loader">
+    <div class="frow order-row" *ngIf="categoriesTour.lenght !==0; else empty">
+        
+        <div 
+         *ngFor="let categoryTour of categoriesTour"
+        class="card waves-effect hoverable pointer"
+        [routerLink]="['/mainPage/tours/', categoryTour._id]"
+        >
+    
+            <div class="center">
+                <img 
+                [src]="categoryTour.imagePath" 
+                class="responsive-img h"> 
+                <!-- responsive-img order-img -->
+            </div>
+            <div class="card-content center p10">
+                <h5 class="m0">{{categoryTour.name}}</h5>
+            </div>
+    
+        </div>
+        
+    </div>
+    <ng-template #empty>
+        <div class="center">категорий пока нет.</div>
+    </ng-template>
+    </div>
+    
+    <ng-template #loader><app-loader></app-loader></ng-template>
+    

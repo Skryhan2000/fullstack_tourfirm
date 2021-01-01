@@ -1,0 +1,100 @@
+
+
+<nav class="nav-extended  grey darken-2">
+    <div class="nav-wrapper">
+        <a routerLink="/" class="brand-logo"><i class="material-icons">beach_access</i>ТудаСюда</a>    
+
+        <div *ngIf="isAuthenticated; else authUsr">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li routerLinkActive="active" *ngIf="isClient; else authEmpl">
+                    <a routerLink="userInfo">Личный кабинет</a>
+                </li>
+                <ng-template #authEmpl>                  
+                        <li routerLinkActive="active">
+                            <a routerLink="overview">Рабочая область</a>
+                        </li>                                
+                </ng-template>            
+                <li routerLinkActive="active">
+                    <a href="#" class="waves-effect waves-orange" (click)="logout($event)">Выход</a>
+                </li>            
+            </ul>        
+    </div>
+    <ng-template #authUsr>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li routerLinkActive="active">
+                <a routerLink="login">Авторизация</a>
+            </li>            
+        </ul>
+    </ng-template>
+    </div>
+    <div class="nav-content  grey darken-1">
+      <ul class="tabs tabs-transparent">
+        <li  class="tab" routerLinkActive="active">
+            <a routerLink="main">Главная</a>
+        </li>  
+        <li  class="tab" routerLinkActive="active">
+            <a routerLink="mainPage/categoryTour">Туры</a>
+        </li>  
+        <li  class="tab" routerLinkActive="active">
+            <a routerLink="mainPage/hotel">Отели</a>
+        </li>   
+        <li  class="tab" routerLinkActive="active">
+          <a routerLink="mainPage/transfer">Трансфер</a>
+      </li>   
+      <li  class="tab" routerLinkActive="active">
+        <a routerLink="mainPage/credit">Кредит</a>
+    </li>    
+        <li routerLinkActive="active"><a  routerLink="mainPage/search"><i class="material-icons">search</i></a></li> 
+      </ul>
+    </div>
+  </nav>
+
+<div class="row">
+<div class="col s12 center">
+    <router-outlet></router-outlet>
+</div>
+</div>
+
+<footer class="page-footer white ">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="grey-text">ТудаСюда</h5>
+          <p class="grey-text text-lighten-1">* Вся информация, в том числе о ценах, указанная на сайте, 
+              не является ни рекламой, ни офертой. Стоимость и перечень туристических услуг формируется на основании договора. 
+              Оплата за услуги производится ТОЛЬКО в белорусских рублях по курсу, установленному компанией.</p>
+        </div>
+        <div class="col l2 offset-l2 s12">
+          <h5 class="grey-text">Наш ссылки</h5>
+          <ul >
+            <li><a href="https://vk.com/popkab" title="Вконтакте" class="secondary-content"><i class="material-icons white-text circle blue">contacts</i></a></li>
+            <li><a href="https://www.instagram.com/korol_of_darkness/" title="Инстаграм" class="secondary-content"><i class="material-icons circle white-text purple accent-3">local_see</i></a></li>
+            <li><a href="https://www.facebook.com/" title="Фейсбук" class="secondary-content"><i class="material-icons circle white-text indigo darken-4">recent_actors</i></a></li>
+            <li><a href="https://web.telegram.org/" title="Телеграмм" class="secondary-content"><i class="material-icons circle light-blue white-text lighten-1">send</i></a></li>
+          </ul>          
+        </div>
+        <div class="col l4 offset-l2 s12">            
+            <h5 class="grey-text">Наши телефоны</h5>
+            <p class="grey-text"><i class="material-icons">call_end</i> +375 (33) 600-00-38</p>            
+            <p class="grey-text"><i class="material-icons">call_end</i> +375 (25) 600-00-38</p>            
+            <p class="grey-text"><i class="material-icons">call_end</i> +375 (44) 600-00-38</p>            
+          </div>
+        <div class="col s12">   
+            <div class="container left">
+            <img class="h" src="..\..\assets\images\visa.png">
+            <img class="h" src="..\..\assets\images\verified_by_visa.png">
+            <img class="h" src="..\..\assets\images\mastercard.png">
+            <img class="h" src="..\..\assets\images\master_card_secure_code.png">
+            <img class="h" src="..\..\assets\images\belkart.png">
+            <img class="h" src="..\..\assets\images\bepaid.png">
+        </div>       
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright white">
+      <div class="container">
+    <span class="grey-text text-darken-2 right">  © 2014 ИП "Скриган В.А."</span>
+      
+      </div>
+    </div>
+  </footer>

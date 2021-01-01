@@ -1,0 +1,22 @@
+
+<div *ngIf="rooms$ | async as rooms;  else loader">
+    <div class="collection" *ngIf="rooms.length!==0;else empty">
+        <h4 class="header center">Комнаты отеля для брони</h4>
+        <a 
+        *ngFor="let room of rooms"
+        class="collection-item collection-item-icon"
+        (click)="onSelectRoom(room)"
+        >
+            <span>Номер: {{room.number}} Цена: {{room.cost}} Тип: </span> 
+            <span  *ngFor="let type of room.type" >{{type}}</span>
+                 <!-- </span>         {{room.berth.length=3 ? `Есть детская кровать: room.berth[2]` : ""}} {{room.type.length>=2 ? `Есть двуспальная кровать кровать room.berth[1]` : ""}} 
+                 {{room.type.length>=1 ? `Односпальных мест room.berth[0]` : ""}} -->
+        </a>
+    </div>
+    <ng-template #empty>
+        <div class="center"> </div>
+    </ng-template>  
+</div>
+<ng-template #loader>
+    <app-loader></app-loader>
+</ng-template>

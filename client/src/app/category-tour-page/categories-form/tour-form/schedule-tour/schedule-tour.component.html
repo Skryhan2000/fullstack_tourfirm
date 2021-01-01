@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col s12">
+        <div class="page-subtitle">
+            <h4>Программы:</h4>
+            <button 
+            class="waves-effect waves-light btn grey darken-1 btn-small" 
+            (click)="onAddSchedule()"
+            >
+                Добавить программу
+            </button>
+        </div>
+<div *ngIf="!loading; else loader">
+        <div class="collection" *ngIf="schedules.length!==0;else empty">
+            <a 
+            *ngFor="let schedule of schedules"
+            class="collection-item collection-item-icon"
+            (click)="onSelectSchedule(schedule)"
+            >
+                <span>
+                {{schedule.name}}
+                </span>
+                <span>
+                    <i class="material-icons"  (click)="onDeleteSchedule($event, schedule)">delete</i>
+                </span>
+            </a>
+        </div>
+        <ng-template #empty>
+            <div class="center">У тура нет программ</div>
+        </ng-template>  
+    </div>
+    <ng-template #loader>
+        <app-loader></app-loader>
+    </ng-template>
+    </div>
+</div>
+
+
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="modal" #modal>
+<div class="modal-content row">
+    <h4 class="mb1">Добавить программу тура</h4>
+    
+    <div class="input-field col s12">
+        <input 
+        formControlName="name"
+        id="name" 
+        type="text"
+         [ngClass]="{'invalid':form.get('name').invalid && form.get('name').touched}"
+        >            
+        <label for="name">Название:</label>
+        <span 
+        class="helper-text red-text"
+        *ngIf="form.get('name').invalid && form.get('name').touched">
+        <span *ngIf="form.get('name').errors['required']">Название программы не может быть пустым</span>            
+        </span>
+    </div>
+    
+    <div class="input-field col s6">
+        <input 
+        id="contries" 
+        type="text" 
+        formControlName="contries" 
+        [ngClass]="{'invalid':form.get('contries').invalid && form.get('contries').touched}">
+        <label for="pos-contry">Страны</label>
+        <span
+        class="helper-text red-text"
+        *ngIf="form.get('contries').invalid && form.get('contries').touched"
+        >
+    <span  *ngIf="form.get('contries').errors['pattern']">
+       Страны могут состоять только из букв
+    </span>
+    </span>
+    </div>
+
+    <div class="input-field col s6">
+        <input id="pos-hotels" type="text" formControlName="hotels">
+        <label for="pos-hotels">Отели</label>
+    </div>
+  
+    <div
+  formArrayName="daysArray"
+  *ngFor="let day of form.get('daysArray')['controls']; let idx = index;">
+  <div [formGroupName]="idx">
+    <div class="input-field col s2" >
+        <input id="pos-day"  type="text" formControlName="date">
+        <label for="pos-day">День</label>                
+    </div>
+    <div class="input-field col s1">
+        <input id="pos-time" type="text" formControlName="time">
+        <label for="pos-time">Время</label>
+    </div>
+    <div class="input-field col s6">
+        <input id="pos-action" type="text" formControlName="action">
+        <label for="pos-action">Событие</label>
+    </div>
+    <div class="input-field col s3">
+        <input id="pos-cost" type="text" formControlName="cost">
+        <label for="pos-cost">Цена</label>
+    </div>
+    <button type="button" class="btn btn-default" (click)="deleteDay(idx)">-</button>
+    <button type="button" class="btn btn-default" (click)="addDay()">+</button>
+    <!-- <button type="button" class="btn btn-default" (click)="copyDay(idx)">Copy</button> -->
+  </div>  
+</div>   
+
+<div class="modal-footer">
+    <button 
+    type="button"
+    (click)="onCancel()"
+    class="modal-action waves-effect waves-black btn-flat"
+    [disabled]="form.disabled"
+    >Отмена</button>
+    <button 
+    class="modal-action btn waves-effect" 
+    type="submit"
+    [disabled]="form.disabled||form.invalid"
+    >Сохранить</button>
+</div>
+</div>
+</div>
+</form>

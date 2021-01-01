@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col s12">
+        <div class="page-subtitle">
+            <h4>Туры:</h4>
+            <button 
+            class="waves-effect waves-light btn grey darken-1 btn-small "                      
+            [routerLink]="['/tour/new',categoryId]"                              
+            >
+                Добавить тур
+            </button>
+        </div>
+
+   <div *ngIf="!loading;else loader">
+            <div class="collection" *ngIf="tours.length!==0;else empty">
+            <a 
+            *ngFor="let tour of tours"
+            class="collection-item collection-item-icon"
+            [routerLink]="['/tour',tour._id]"
+            >
+                <span>
+                  {{tour.name}} <strong>{{tour.cost}} руб.</strong>
+                </span>
+                <span>
+                    <i class="material-icons" (click)="onDeletePosition($event, tour)">delete</i>
+                </span>
+            </a>
+        </div>
+        <ng-template #empty>
+            <div class="center">В категории нет туров</div>
+        </ng-template>        
+    </div>
+    <ng-template #loader>
+        <app-loader></app-loader>
+    </ng-template>
+</div>   
+</div>
+
+

@@ -1,0 +1,32 @@
+<div class="page-title">
+    <h4>Категории</h4>
+    <button 
+    class="waves-effect waves-light btn grey darken-1"
+    routerLink="/categoriesTour/new"
+    >Добавить категорию
+</button>
+</div>
+
+<div 
+class="row"
+*ngIf="categoriesTour$|async as categoriesTour; else loader"
+ >
+    <div class="col s12">
+        <div 
+        *ngIf="categoriesTour.length!==0;else empty"
+        class="collection"       
+        >
+            <a 
+            *ngFor="let categoryTour of categoriesTour"
+            [routerLink]="['/categoriesTour',categoryTour._id]"
+            class="collection-item">{{categoryTour.name}}</a>           
+        </div>
+    </div>
+</div>
+<ng-template #empty>
+<div class="center">
+    Нет добавленных категорий
+</div>
+</ng-template>
+<ng-template #loader><app-loader ></app-loader></ng-template>
+

@@ -1,0 +1,70 @@
+<div class="page-title">
+    <h4>    
+        <a routerLink="/hotels">Отели</a>
+        <i class="material-icons">keyboard_arrow_right</i>
+        Услуги отелей
+    </h4>  
+</div>
+
+<div class="row">
+    <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="input-field">
+            <input 
+            formControlName="nameHotelService"
+            id="nameHotelService" 
+            type="text" 
+            [ngClass]="{'invalid': form.get('nameHotelService').invalid && form.get('nameHotelService').touched}"
+            >
+            <label for="nameHotelService">Название услуги</label>
+            <span
+            class="helper-text red-text"
+            *ngIf="form.get('nameHotelService').invalid && form.get('nameHotelService').touched"
+            >
+        <span  *ngIf="form.get('nameHotelService').errors['required']">
+            Имя услуги не может быть пустым
+        </span>
+        </span>
+        </div>  
+        <div>
+            <button 
+            type="submit"
+            [disabled]="form.invalid||form.disabled"
+            class="waves-effect waves-light btn">
+                Сохранить изменения
+            </button>
+        </div>
+        
+    </form>
+
+    <div class="col s12 l4 center">
+
+        <div class="row">
+            <div class="col s12 ">             
+           <div *ngIf="!loading; else loader">
+                    <div class="collection" *ngIf="hotelServices.length!==0;else empty">
+                    <a 
+                    *ngFor="let hotelService of hotelServices"
+                    class="collection-item collection-item-icon"
+                    (click)="onSelectTransfer(hotelService)"
+                    >
+                        <span>
+                          {{hotelService.nameHotelService}} 
+                        </span>
+                        <span>
+                            <i class="material-icons" (click)="onDeleteHotelService($event, hotelService)">delete</i>
+                        </span>
+                    </a>
+                </div>
+                <ng-template #empty>
+                    <div class="center">Нет записей о услугах</div>
+                </ng-template>        
+            </div>
+            <ng-template #loader>
+                <app-loader></app-loader>
+            </ng-template>
+        </div>   
+        </div>
+
+    </div>
+</div>
+

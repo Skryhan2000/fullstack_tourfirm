@@ -1,0 +1,77 @@
+
+<div *ngIf="hotels$ | async as hotels; else loader">
+    <div class="frow order-row" *ngIf="hotels.lenght !==0; else empty">
+        
+        <div 
+         *ngFor="let hotel of hotels"
+        class="card waves-effect hoverable pointer"
+        (click)="onSelectHotel(hotel)"
+        >
+    
+            <div class="center">
+                <img 
+                [src]="hotel.imagePaths[0]" 
+                class="responsive-img h"> 
+            </div>
+            <div class="card-content center p10">
+                <h5 class="m0">{{hotel.name}} {{hotel.stars}}</h5>
+                <h6 class="m0">{{hotel.address.contry}}, {{hotel.address.town}}</h6>
+            </div>
+    
+        </div>
+        
+    </div>
+    <ng-template #empty>
+        <div class="center">Отелей пока нет.</div>
+    </ng-template>
+    </div>
+    
+    <ng-template #loader><app-loader></app-loader></ng-template>
+    
+    
+<div class="modal" #modal >
+    <div class="modal-content" *ngIf="hotel">
+        <h4 class="mb1 orange-text">{{hotel.name}}</h4>   
+        <div class="center">
+            <img 
+            [src]="hotel.imagePaths[0]" 
+            class="responsive-img h1"> 
+        </div>  
+        <div class="row">
+            <div class="col s1"></div>
+            <div class="col s10">
+                <div class="col s12"> 
+                <span class="left"><br>{{hotel.text}} </span>
+                </div>
+              <div class="col s6">  
+                  <span class="left"><strong class="orange-text"> Звезды:</strong> {{hotel.stars}} <strong class="orange-text"> Телефон: </strong> {{hotel.phoneList[0]}} <br><strong class="orange-text left"> Сайт:</strong> {{hotel.site}} </span>
+                </div>
+                <div class="col s6">  
+                    <span class="left"><strong class="orange-text"> Адрес:</strong> {{hotel.address.contry}}, {{hotel.address.town}}, {{hotel.address.street}} {{hotel.address.number}} км {{hotel.address.corpus}} </span>    
+                  </div>
+                  <div class="col s12"> 
+                    <span class="left orange-text"><strong> Услуги отеля:</strong></span>
+                    <span class="left" *ngFor="let hotelService of hotel.hotelService"><br><strong> {{hotelService.nameHotelService}} </strong> ( {{hotelService.cost ? 'Платно' : 'Бесплатно' }} ),  </span>    
+                    </div> 
+            </div>
+        </div>
+           <ng-container *ngIf="_reload" ><app-room-order-page [hotelId]="hotel._id"></app-room-order-page></ng-container>
+    </div>
+    <div class="modal-footer">
+        <app-modal-m-page                    
+        [type]="'Бронирование отеля'"
+        *ngIf="hotel?._id"
+        [objectId]="hotel._id"
+        ></app-modal-m-page>    
+        <button type="button" 
+        (click)="onCancel()" 
+        class="modal-action waves-effect waves-black btn-flat"        
+        >Отмена
+    </button>
+        <!-- <button 
+        class="modal-action btn waves-effect" 
+        type="button"
+        (click)="onSudmit()"
+        >Сохранить</button> -->
+    </div>
+</div>

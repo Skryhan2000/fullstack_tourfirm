@@ -1,0 +1,19 @@
+<div *ngIf="scheduleis$ | async as schedules;  else loader">
+    <div class="collection" *ngIf="schedules.length!==0;else empty">
+        <a 
+        *ngFor="let schedule of schedules"
+        class="collection-item collection-item-icon"
+        (click)="onSelectSchedule(schedule)"
+        >
+            <span>
+            {{schedule.name}}
+            </span>         
+        </a>
+    </div>
+    <ng-template #empty>
+        <div class="center">У тура нет программ</div>
+    </ng-template>  
+</div>
+<ng-template #loader>
+    <app-loader></app-loader>
+</ng-template>

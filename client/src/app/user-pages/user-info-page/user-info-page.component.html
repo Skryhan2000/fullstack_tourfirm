@@ -1,0 +1,118 @@
+<div class="page-title">
+    <h4>
+        Здравствуйте, {{form.get('fullName').value}}
+    </h4>
+    <span>
+        <button 
+        class="btn btn-small red" 
+        (click)="deleteClient()"         
+        >
+          <i class="material-icons">delete</i>
+        </button>
+      </span>
+</div>
+
+<div class="row">
+    <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="input-field ">
+            <input 
+            formControlName="fullName"
+            id="fullName" 
+            type="text"
+             [ngClass]="{'invalid':form.get('fullName').invalid && form.get('fullName').touched}"
+            >            
+            <label for="fullName">ФИО:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('fullName').invalid && form.get('fullName').touched">
+            <span *ngIf="form.get('fullName').errors['required']">ФИО не может быть пустым</span>            
+            <span *ngIf="form.get('fullName').errors['pattern']">ФИО может состоять только из букв</span>
+            <span *ngIf="form.get('fullName').errors['minlength'] 
+            && form.get('fullName').errors['minlength']['requiredLength']">
+            Слишком коротко. Введите полностью ФИО</span>            
+            </span>
+        </div>
+
+        <div class="input-field">
+            <input 
+            formControlName="email"
+            id="email" 
+            type="email"
+             [ngClass]="{'invalid':form.get('email').invalid && form.get('email').touched}"
+            >
+            <label for="email">Email:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('email').invalid && form.get('email').touched">
+            <span *ngIf="form.get('email').errors['required']">Email не должен быть пустым</span>
+            <span *ngIf="form.get('email').errors['email']">Введите корректный еmail</span>
+            </span>
+        </div>
+
+        
+        <div class="input-field">
+            <input 
+            formControlName="phone"
+            id="phone" 
+            type="tel"            
+             [ngClass]="{'invalid':form.get('phone').invalid && form.get('phone').touched}"
+            >
+            <label for="phone">Телефон:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('phone').invalid && form.get('phone').touched">
+            <span *ngIf="form.get('phone').errors['required']">Телефон не должен быть пустым.</span> 
+            <span *ngIf="form.get('phone').errors['minlength'] 
+            && form.get('phone').errors['minlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('phone').errors['minlength']['requiredLength']}} символов.
+            Сейчас {{form.get('phone').errors['minlength']['actualLength']}}.</span>            
+            <span *ngIf="form.get('phone').errors['maxlength'] 
+            && form.get('phone').errors['maxlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('phone').errors['maxlength']['requiredLength']}} символов.
+            Сейчас {{form.get('phone').errors['maxlength']['actualLength']}}.</span>
+            <span *ngIf="form.get('phone').errors['pattern']">Телефон должен состоять из цифр</span> 
+            </span>
+        </div>
+        <div class="input-field dn">
+            <input 
+            formControlName="password"
+            id="password" 
+            type="password" 
+            [ngClass]="{'invalid':form.get('password').invalid && form.get('password').touched}"
+            >
+            <label for="password">Пароль:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('password').invalid && form.get('password').touched">
+            <span *ngIf="form.get('password').errors['required']">Пароль не должен быть пустым</span>
+            <span *ngIf="form.get('password').errors['minlength'] 
+            && form.get('password').errors['minlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('password').errors['minlength']['requiredLength']}} символов.
+            Сейчас {{form.get('password').errors['minlength']['actualLength']}}</span> 
+            </span>
+        </div>
+        <div>
+            <button 
+            type="submit"
+            [disabled]="form.invalid||form.disabled"
+            class="waves-effect waves-light btn">
+                Сохранить изменения
+            </button>
+        </div>
+    </form>
+
+  
+   
+</div>
+
+
+
+   
+
+
+
+
+
+
+    
+    

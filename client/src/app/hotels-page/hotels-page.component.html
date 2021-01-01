@@ -1,0 +1,40 @@
+<div class="page-title">
+    <h4>Отели</h4>
+    <div>
+        <button 
+class="waves-effect waves-light btn grey darken-1"
+routerLink="/hotelServices"
+>Добавить услуги
+</button>
+    <button 
+    class="waves-effect waves-light btn grey darken-2"
+    routerLink="/hotels/new"
+    >Добавить отель
+</button>
+
+</div>
+</div>
+
+<div 
+class="row"
+*ngIf="hotels$|async as hotels; else loader"
+ >
+    <div class="col s12">
+        <div 
+        *ngIf="hotels.length!==0;else empty"
+        class="collection"       
+        >
+            <a 
+            *ngFor="let hotel of hotels"
+            [routerLink]="['/hotels',hotel._id]"
+            class="collection-item">{{hotel.name}}</a>           
+        </div>
+    </div>
+</div>
+<ng-template #empty>
+<div class="center">
+    Нет добавленных отелей
+</div>
+</ng-template>
+<ng-template #loader><app-loader ></app-loader></ng-template>
+

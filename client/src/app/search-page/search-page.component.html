@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col s12 m2"></div>
+      <div class="col s12 m8">               
+      
+      <div class="col s12">      
+        <div class="card horizontal hoverable">
+          <div class="card-image">
+            <img class="h" src="../../assets/images/img-6.jpg">
+          </div>
+          <div class="card-stacked">
+            <div class="card-content">
+              <h4 class="center orange-text"> КОНСУЛЬТАЦИЯ ПО ТЕЛЕФОНУ:</h4>
+              <h4 class="center orange-text"> +375 (33) 600-00-38</h4>
+              <p class="grey-text text-darken-3 lighten-3 center">Подберем Тур вместе с Вами!
+                </p>
+            </div>
+            
+            <div class="card-action">                            
+              <app-modal-m-page                    
+                    [type]="'Подбор туры'"
+                    [objectId]="''"
+                    ></app-modal-m-page>                    
+            </div>
+          </div>
+        </div>
+      </div>
+     
+
+
+      </div>
+      <div class="col s12 m2"></div>
+      
+  </div>
+
+  <div class="row">
+    <div class="col s12 m2"></div>
+    <div class="col s12 m8"> 
+        <div>
+            <div class="fr">
+                <div class="col contry">
+                    <div class="input-field inline ">
+                        <input type="string" id="tour" [(ngModel)]="contry"> 
+                        <label for="tour">Страна</label>
+                    </div>
+                </div>
+                <div class="col filter-pickers ">
+                    <div class="input-field">
+                        <input type="text"   #start>
+                        <label >Начало</label>
+                    </div>
+        
+                    <div class="input-field">
+                        <input type="text" #end>
+                        <label>Конец</label>
+                    </div>
+                </div> 
+                <button 
+            (click)="submitFilter()"
+            class="btn waves-effect wavers-light btn-small"
+            [disabled]="!isValid"
+            >Применить фильтр</button>                     
+            </div>
+        
+            
+        </div>
+        <div *ngIf="!reloading; else reloadingBlock">
+            <div *ngIf="tours.length!=0; else empty">
+        <app-search-list [tours]="tours" ></app-search-list>        
+        </div>
+        
+        <ng-template #empty>
+         <div class="center">Нет туров с такими условиями.</div>
+        </ng-template>       
+        
+        </div>
+        
+        <ng-template #reloadingBlock>
+         <app-loader></app-loader>
+        </ng-template>
+    </div>
+      <div class="col s12 m2"></div>
+    </div>
+
+
+
+
+   

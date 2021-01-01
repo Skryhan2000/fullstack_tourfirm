@@ -1,0 +1,75 @@
+<div class="page-title">
+    <h4>
+       История ваших заявок
+    </h4>    
+</div>
+
+<div *ngIf="orders$|async as orders; else loader">
+    <div  *ngIf="orders.length!==0;else empty">
+    <table   
+    class="highlight mb2"    
+    >   
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Дата</th>
+            <th>Время</th>
+            <th>Тип</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.order}}</td>
+            <td>{{order.date | date:'dd.MM.yyyy'}}</td>
+            <td>{{order.date | date:'HH:mm:ss'}}</td>
+            <td>{{order.service.type}}</td>
+            <td>
+                <button class="btn btn-small grey darken-1" (click)="onSelectOrder(order)">
+                    <i class="material-icons">open_in_new</i>
+                </button>
+            </td>
+        </tr>
+        
+        </tbody>
+    
+        <!-- <span>
+            <strong>Номер </strong>  {{order.order}}   <strong>Услуга </strong>  {{order.service.type}} <strong>Дата добавления </strong> {{order.date}}
+        </span>         -->
+    </table>
+</div>
+<ng-template #empty>
+    <div class="center">Нет истории заявок</div>
+</ng-template>        
+</div>
+<ng-template #loader>
+<app-loader></app-loader>
+</ng-template>
+
+
+
+
+<div class="modal" #modal>
+    <div class="modal-content" *ngIf="selectOrder">
+        <h4 class="mb1">Заявка №{{selectOrder.order}}</h4>
+        <table class="highlight"> 
+            <thead>
+                <tr>                   
+                </tr>
+                </thead>         
+            <tbody>
+                <tr>{{selectOrder.name}}</tr>
+                <tr>{{selectOrder.email }}</tr>
+                <tr>{{selectOrder.phone}}</tr>
+                <tr>{{selectOrder.description}}</tr>
+                <tr>{{selectOrder.service.type}}</tr>
+            </tbody>
+        </table>                             
+    </div>
+    <div class="modal-footer">
+        <button type="button" 
+        (click)="onCancel()" 
+        class="modal-action waves-effect waves-black btn-flat"        
+        >Отмена      </button>
+    </div>
+</div>

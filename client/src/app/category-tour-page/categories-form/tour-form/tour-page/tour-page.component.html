@@ -1,0 +1,176 @@
+
+    <div class="page-title">
+        <h4>
+            <a
+            [routerLink]="['/categoriesTour',categoryId]">Категория тура</a>             
+            <i class="material-icons">keyboard_arrow_right</i>
+            {{isNew? 'Добавить':'Редактировать'}} тур
+        </h4>
+        <span>
+            <button 
+            class="btn btn-small red" 
+        (click)="deleteTour()" 
+        *ngIf="!isNew"
+            >
+              <i class="material-icons">delete</i>
+            </button>
+          </span>
+    </div>
+
+    <div class="row">
+        <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="input-field">
+                <input 
+                formControlName="name"
+                id="name" 
+                type="text" 
+                [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched}"
+                >
+                <label for="name">Название</label>
+                <span
+                class="helper-text red-text"
+                *ngIf="form.get('name').invalid && form.get('name').touched"
+                >
+            <span  *ngIf="form.get('name').errors['required']">
+                Название тура не может быть пустым
+            </span>
+            </span>
+            </div>
+            <div class="input-field">
+                <input 
+                formControlName="contry"
+                id="name" 
+                type="text" 
+                [ngClass]="{'invalid': form.get('contry').invalid && form.get('contry').touched}"
+                >
+                <label for="name">Страна назначения:</label>
+                <span
+                class="helper-text red-text"
+                *ngIf="form.get('contry').invalid && form.get('contry').touched"
+                >
+            <span  *ngIf="form.get('contry').errors['required']">
+                Страна тура не может быть пустой
+            </span>
+            </span>
+            </div>
+            <div class="input-field">
+                <input 
+                formControlName="cost"
+                id="cost" 
+                type="number" 
+                [ngClass]="{'invalid': form.get('cost').invalid && form.get('cost').touched}"
+                >               
+                <label for="cost">Цена</label>
+                <span
+                class="helper-text red-text"
+                *ngIf="form.get('cost').invalid && form.get('cost').touched"
+                >
+            <span  *ngIf="form.get('cost').errors['required']">
+                Цена тура не может быть пустой
+            </span>
+            </span>          
+            </div>              
+            <div class="input-field ">
+                  <textarea id="description"  formControlName="description" class="materialize-textarea" ></textarea>
+                  <label for="description">Описание</label>                  
+            </div>
+              
+         
+
+            <div class="row">
+                <div class="input-field  col s10">
+                    <select 
+                    id="selectedValue"                    
+                    multiple                                                      
+                    #select>
+                      <option value="" disabled unselected>Выберите тип транспорта</option>
+                      <option value="Автобус">Автобус</option>
+                      <option value="Морской транспорт" >Морской транспорт</option>
+                      <option value="Самолет">Самолет</option>
+                      <option value="Пеший">Пеший</option>
+                    </select>
+                    <label>Тип транспорта</label>                    
+                  </div>
+                  <div class="col s2">
+                <p >
+                <label>
+                  <input type="checkbox" checked="checked" formControlName="insallmentPlan"/>
+                  <span>Рассрочка</span>
+                </label>
+            </p>
+          
+                  </div>
+            </div>       
+
+            <div class="row">                                    
+                    <div class="input-field col s4">
+                        <input type="text" #start>
+                        <label >Начало</label>                        
+                    </div>
+        
+                    <div class="input-field col s4">
+                        <input type="text" #end>
+                        <label>Конец</label>
+                    </div>
+                    <div class="input-field col s4">                           
+                            <input 
+                            type="number" 
+                            id="places" 
+                            formControlName="places"
+                            [ngClass]="{'invalid': form.get('places').invalid && form.get('places').touched}"
+                             > 
+                            <label for="places">Количество мест</label>
+                            <span
+                            class="helper-text red-text"
+                            *ngIf="form.get('places').invalid && form.get('places').touched"
+                            >
+                        <span  *ngIf="form.get('places').errors['required']">
+                            Количество мест не может быть пустым
+                        </span>
+                        </span>  
+                    </div>                
+            </div>
+
+            <div>
+                <input
+                type="file"
+                class="dn"
+                (change)="onFileUpload($event)"
+                #input
+                multiple
+                >
+                <button 
+                (click)="triggerClick()"
+                [disabled]="form.disabled"
+                type="button"
+                class="waves-effect waves-light btn orange lighten-2 mb2">
+                    <i class="material-icons left">backup</i>
+                    Загрузить изображение
+                </button>
+            </div>
+         
+        
+    
+            <div>
+                <button 
+                type="submit"
+                [disabled]="form.invalid||form.disabled||!isValid"
+                class="waves-effect waves-light btn">
+                    Сохранить изменения
+                </button>
+            </div>
+        </form>
+
+        <div class="col s12 l4 center">
+            <img 
+            class="responsive-img h200"  
+            [src]="imagePreview"
+            *ngIf="imagePreview"
+            >
+        </div>
+    </div>
+  
+  
+
+<app-schedule-tour  *ngIf="tour?._id" [tourId]="tour._id"></app-schedule-tour>
+

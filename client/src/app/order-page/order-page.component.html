@@ -1,0 +1,86 @@
+<div class="page-title">
+    <h4>
+       Заявки ожидающие обработки
+    </h4>    
+</div>
+
+<div *ngIf="!loading; else loader">
+    <div  *ngIf="orders.length!==0;else empty">
+    <table   
+    class="highlight mb2"    
+    >   
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Дата</th>
+            <th>Время</th>
+            <th>Тип</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.order}}</td>
+            <td>{{order.date | date:'dd.MM.yyyy'}}</td>
+            <td>{{order.date | date:'HH:mm:ss'}}</td>
+            <td>{{order.service.type}}</td>
+            <td>
+                <button class="btn btn-small grey darken-1" (click)="onSelectOrder(order)">
+                    <i class="material-icons">open_in_new</i>
+                </button>
+            </td>
+        </tr>
+        
+        </tbody>    
+    </table>
+</div>
+<ng-template #empty>
+    <div class="center">Нет текущих заявок</div>
+</ng-template>        
+</div>
+<ng-template #loader>
+<app-loader></app-loader>
+</ng-template>
+
+
+
+
+<div class="modal" #modal>
+    <div class="modal-content" *ngIf="selectOrder">
+        <h4 class="mb1">Заявка №{{selectOrder.order}}</h4>
+        <table class="highlight"> 
+            <thead>
+                <tr>                   
+                </tr>
+                </thead>         
+            <tbody>
+                <tr><td>Имя заявщика: </td><td>{{selectOrder.name}}</td></tr>
+                <tr *ngIf="selectOrder.email"><td>Email: </td><td>{{selectOrder.email}}</td></tr>
+                <tr><td>Телефон: </td><td>{{selectOrder.phone}}</td></tr>
+                <tr  *ngIf="selectOrder.description"><td>Комментарий о месте отдыха: </td><td>{{selectOrder.description}}</td></tr>
+                <tr><td>Статус заявки: </td><td>{{selectOrder.requestS ? "Обработанная заявка": "Необработанная заявка"}}</td></tr>
+                <tr><td>Тип услуги: </td><td>{{selectOrder.service.type}}</td></tr>
+                <tr><td>Дата заявки: </td><td>{{selectOrder.date | date:'dd.MM.yyyy'}} {{selectOrder.date | date:'HH:mm:ss'}}</td></tr>              
+                <tr></tr>                
+            <tr> </tr>
+            </tbody>
+        </table>                             
+    </div>
+    <div class="modal-footer">
+        <button type="button" 
+        (click)="onCancel()" 
+        class="modal-action waves-effect waves-black btn-flat"        
+        >Отмена      </button>
+        <button 
+        class="modal-action waves-effect waves-black btn-flat orange-text" 
+        type="button" 
+        (click)="onOpen(selectOrder)"  
+        *ngIf="info"   
+        >Открыть инфо</button>
+        <button 
+        class="modal-action btn waves-effect" 
+        type="button" 
+        (click)="onSubmit()"     
+        >Обработать</button>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+ <div class="row">
+    <div class="col s12">
+        <div class="page-subtitle">
+            <h4>Сотрудники:</h4>
+            <button 
+            class="waves-effect waves-light btn grey darken-1 btn-small "                      
+            (click)="onAddEmployee()"                             
+            >
+                Добавить сотрудника
+            </button>
+        </div>
+
+   <div *ngIf="!loading; else loader">
+            <div class="collection" *ngIf="users.length!==0;else empty">
+            <a 
+            *ngFor="let user of users"
+            class="collection-item collection-item-icon"
+            (click)="onSelectEmployee(user)"
+            >
+                <span>
+                    <strong>ФИО: </strong>  {{user.fullName}} <strong>Должность </strong> {{user.status}}
+                </span>
+                <span>
+                    <i class="material-icons" (click)="onDeleteEmployee($event, user)">delete</i>
+                </span>
+            </a>
+        </div>
+        <ng-template #empty>
+            <div class="center">В системе нет сотрудников</div>
+        </ng-template>        
+    </div>
+    <ng-template #loader>
+        <app-loader></app-loader>
+    </ng-template>
+</div>   
+</div>
+
+<form
+[formGroup]="form" (ngSubmit)="onSubmit()"
+>
+<div class="modal" #modal>
+    <div class="modal-content">
+        <h4 class="mb1">Добавить позицию</h4>
+        <div class="input-field">
+            <input 
+            formControlName="fullName"
+            id="fullName" 
+            type="text"
+             [ngClass]="{'invalid':form.get('fullName').invalid && form.get('fullName').touched}"
+            >            
+            <label for="fullName">ФИО:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('fullName').invalid && form.get('fullName').touched">
+            <span *ngIf="form.get('fullName').errors['required']">ФИО не может быть пустым</span>            
+            <span *ngIf="form.get('fullName').errors['pattern']">ФИО может состоять только из букв</span>
+            <span *ngIf="form.get('fullName').errors['minlength'] 
+            && form.get('fullName').errors['minlength']['requiredLength']">
+            Слишком коротко. Введите полностью ФИО</span>            
+            </span>
+        </div>
+        <div class="input-field">
+            <input 
+            formControlName="email"
+            id="email" 
+            type="email"
+             [ngClass]="{'invalid':form.get('email').invalid && form.get('email').touched}"
+            >
+            <label for="email">Email:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('email').invalid && form.get('email').touched">
+            <span *ngIf="form.get('email').errors['required']">Email не должен быть пустым</span>
+            <span *ngIf="form.get('email').errors['email']">Введите корректный еmail</span>
+            </span>
+        </div>
+        <div class="input-field">
+            <input 
+            formControlName="password"
+            id="password" 
+            type="password" 
+            [ngClass]="{'invalid':form.get('password').invalid && form.get('password').touched}"
+            >
+            <label for="password">Пароль:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('password').invalid && form.get('password').touched">
+            <span *ngIf="form.get('password').errors['required']">Пароль не должен быть пустым</span>
+            <span *ngIf="form.get('password').errors['minlength'] 
+            && form.get('password').errors['minlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('password').errors['minlength']['requiredLength']}} символов.
+            Сейчас {{form.get('password').errors['minlength']['actualLength']}}</span> 
+            </span>
+        </div>
+        <div class="input-field">
+            <input 
+            formControlName="phone"
+            id="phone" 
+            type="tel"            
+             [ngClass]="{'invalid':form.get('phone').invalid && form.get('phone').touched}"
+            >
+            <label for="phone">Телефон:</label>
+            <span 
+            class="helper-text red-text"
+            *ngIf="form.get('phone').invalid && form.get('phone').touched">
+            <span *ngIf="form.get('phone').errors['required']">Телефон не должен быть пустым.</span> 
+            <span *ngIf="form.get('phone').errors['minlength'] 
+            && form.get('phone').errors['minlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('phone').errors['minlength']['requiredLength']}} символов.
+            Сейчас {{form.get('phone').errors['minlength']['actualLength']}}.</span>            
+            <span *ngIf="form.get('phone').errors['maxlength'] 
+            && form.get('phone').errors['maxlength']['requiredLength']">
+            Пароль должен быть больше {{form.get('phone').errors['maxlength']['requiredLength']}} символов.
+            Сейчас {{form.get('phone').errors['maxlength']['actualLength']}}.</span>
+            <span *ngIf="form.get('phone').errors['pattern']">Телефон должен состоять из цифр</span> 
+            </span>
+        </div>
+        <div class="">
+            <div class="input-field  col s5">
+                <select 
+                id="selectedValue"                    
+                multiple                                                      
+                #select>
+                  <option value="" disabled unselected>Выберите должность сотрудника</option>
+                  <option value="Модератор">Модератор</option>
+                  <option value="Турагент" >Турагент</option>
+                  <option value="Менеджер">Менеджер</option>
+                  <option value="Маркетолог">Маркетолог</option>                  
+                </select>
+                <label>Должность сотрудника</label>                    
+              </div>
+              
+                <div class=" col s4">
+                    <input
+                    type="file"
+                    class="dn"
+                    (change)="onFileUpload($event)"
+                    #input
+                    multiple
+                    >
+                    <button 
+                    (click)="triggerClick()"
+                    [disabled]="form.disabled"
+                    type="button"
+                    class="waves-effect waves-light btn orange lighten-2 mb2">
+                        <i class="material-icons left">backup</i>
+                        Загрузить изображение
+                    </button>
+                </div>
+              <div class="col s3  center">
+                <img 
+                class="responsive-img"  
+                [src]="imagePreview"
+                *ngIf="imagePreview"
+                >
+            </div>
+        </div>     
+    </div>
+    <div class="modal-footer">
+        <button type="button" 
+        (click)="onCancel()" 
+        class="modal-action waves-effect waves-black btn-flat"
+        [disabled]="form.disabled"
+        >Отмена
+    </button>
+        <button 
+        class="modal-action btn waves-effect" 
+        type="submit"
+        [disabled]="form.disabled || form.invalid"
+        >Сохранить</button>
+    </div>
+</div>
+</form>
+    
+    

@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col s12 m2"></div>
+      <div class="col s12 m8">               
+      
+      <div class="col s12">      
+        <div class="card horizontal hoverable">
+          <div class="card-image">
+            <img class="h" src="../../assets/images/plane1.jpg">
+          </div>
+          <div class="card-stacked">
+            <div class="card-content">
+              <h4 class="center orange-text"> КОНСУЛЬТАЦИЯ ПО ТЕЛЕФОНУ:</h4>
+              <h4 class="center orange-text"> +375 (33) 600-00-38</h4>
+              <p class="grey-text text-darken-3 lighten-3 right">Трансфер из Минска в аэропорты Москвы
+                под вылеты из Внуково, Домодедово, Шереметьево. Для наших туристов, вылетающих на отдых из аэрпортов Москвы,
+                организован групповой трансфер прямо в моссковские аэропорты с выездом из Минска.
+                </p>
+            </div>
+            
+            <div class="card-action">                            
+              <app-modal-m-page                    
+                    [type]="'Трансфер'"
+                    [objectId]="''"
+                    ></app-modal-m-page>                    
+            </div>
+          </div>
+        </div>
+      </div>
+     
+
+
+      </div>
+      <div class="col s12 m2"></div>
+      
+  </div>
+
+  <div class="row">
+    <div class="col s12 m2"></div>
+    <div class="col s12 m8">
+        <div *ngIf="transfer$|async as transfers; else loader" >
+            <div 
+            *ngIf="transfers.length!==0;else empty"                   
+            >
+        <table class="highlight centered ">
+            <thead>
+              <tr>
+                  <th>Название направление</th>
+                  <th>Время отправления</th>
+                  <th>Время прибытия</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+                <tr *ngFor="let transfer of transfers">
+                    <td>{{transfer.nameDirect}}</td>
+                    <td>{{transfer.timeFrom}}</td>
+                    <td>{{transfer.timeTo}}</td>
+                  </tr>              
+            </tbody>
+          </table>
+          <h8 class="right grey-text text-lighten-1">*Время прибытия указано ориентировочно. Время минское.</h8>
+        </div><ng-template #empty></ng-template>
+    </div><ng-template #loader><app-loader ></app-loader></ng-template>
+</div>
+      <div class="col s12 m2"></div>
+    </div>
+
+  <div class="row">
+    <div class="col s12 m2"></div>
+    <div class="col s12 m8">
+    <ul class="collapsible popout" #section>
+        <li>
+          <div class="collapsible-header"><i class="material-icons orange-text text-darken-1">local_taxi</i>На каком транспорте осуществляется трансфер</div>
+          <div class="collapsible-body"><span>Трансфер туристов осуществляется на автобусах или микроавтобусах оборудованных для перевозки пассажиров на 
+              дальние расстояния. Тип транспортного средства выбирается перевозчиком самостоятельно в зависимости от количества пассажиров и иных обстоятельств непосредственно в день выезда.</span></div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons orange-text text-darken-1">attach_money</i>Сколько стоит трансфер</div>
+          <div class="collapsible-body"><span >Услугу трансфера турист оплачивает перевозчику в белорусских рублях по установленному перевозчиком курсу.<br>
+            <strong> Стоимость поездки определяется следующим эквивалентом:</strong>
+            <ul>
+                <li>- Минск - Москва (аэропорт) - Минск - 75 у.е. (детям до 12 лет скидка 5 у.е.);</li>
+                <li>- Минск - Москва (аэропорт) - 40 у.е;</li>                
+                <li>- Москва (аэропорт) - Минск - не предоставляется.</li>
+              </ul>
+        </span></div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons orange-text text-darken-1">library_books</i>Данные для оформления трансфера</div>
+          <div class="collapsible-body"><span><strong>Для бронирования трансфера необходимо:</strong>
+            <ul>
+                <li>- данные пассажиров (ФИО, год рождения, телефон);</li>
+                <li>- дата, время, номер рейса и аэропорт вылета;</li>                
+                <li>- дата, время, номер рейса и аэропорт приземления</li>
+              </ul>
+          </span></div>
+        </li>
+      </ul>
+    </div>
+      <div class="col s12 m2"></div>
+    </div>
+
+
+   

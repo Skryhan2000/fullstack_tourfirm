@@ -1,0 +1,20 @@
+<div 
+         *ngFor="let tour of tours"
+        class="card waves-effect hoverable pointer"    
+        (click)="onSelectTour(tour)"    
+        >
+    
+            <div class="center">
+                <img 
+                [src]="tour.imagePaths[0]" 
+                class="responsive-img h"> 
+                <!-- responsive-img order-img -->
+            </div>            
+            <div class="card-content center p10">
+                <h6 class="m0">{{tour.name}}</h6>
+                <h5 class="m0">{{tour.contry}} за {{tour.cost}} руб.</h5>               
+                <h8 class="m0"> {{tour.datePlaces.dateTo | date:'dd.MM.yyyy'}} - {{tour.datePlaces.dateFrom | date:'dd.MM.yyyy'}}</h8>  
+                <i class="material-icons orange-text" *ngIf="tour.insallmentPlan">tag_faces</i>
+            </div>     
+    
+        </div>

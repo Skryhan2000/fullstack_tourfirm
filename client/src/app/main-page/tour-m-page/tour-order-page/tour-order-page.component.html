@@ -1,0 +1,77 @@
+<div *ngIf="tours$ | async as tours; else loader">
+    <div class="frow order-row" *ngIf="tours.lenght !==0; else empty">
+        
+        <div 
+         *ngFor="let tour of tours"
+        class="card waves-effect hoverable pointer"    
+        (click)="onSelectTour(tour)"    
+        >
+    
+            <div class="center">
+                <img 
+                [src]="tour.imagePaths[0]" 
+                class="responsive-img h"> 
+                <!-- responsive-img order-img -->
+            </div>            
+            <div class="card-content center p10">
+                <h6 class="m0">{{tour.name}}</h6>
+                <h5 class="m0">{{tour.contry}} за {{tour.cost}} руб.</h5>               
+                <h8 class="m0"> {{tour.datePlaces.dateTo | date:'dd.MM.yyyy'}} - {{tour.datePlaces.dateFrom | date:'dd.MM.yyyy'}}</h8>  
+                <i class="material-icons orange-text" *ngIf="tour.insallmentPlan">tag_faces</i>
+            </div>     
+    
+        </div>
+        
+    </div>
+    <ng-template #empty>
+        <div class="center">Туров пока нет.</div>
+    </ng-template>
+    </div>
+    
+    <ng-template #loader><app-loader></app-loader></ng-template>
+
+
+    <div class="modal" #modal >
+        <div class="modal-content" *ngIf="tour">
+            <h4 class="mb1 orange-text">{{tour.name}}</h4>   
+            <div class="center">
+                <img 
+                *ngIf="tour.imagePaths"
+                [src]="tour.imagePaths[0]" 
+                class="responsive-img h1"> 
+            </div>  
+            <div class="row">
+                <div class="col s1"></div>
+                <div class="col s10">
+                    <div class="col s12"> 
+                    <span class="center"><br>{{tour.description}} </span>
+                    </div>
+                  <div class="col s6">  
+                      <span class="left"><br><strong class="orange-text"> Цена:</strong> {{tour.cost}} руб. ( {{tour.insallmentPlan ? 'Возможна рассрочка' : '' }} ) <br><strong class="orange-text left"> Страна: </strong><strong class="left">  {{tour.contry}}</strong></span>
+                    </div>
+                    <div class="col s6">  
+                        <span class="left"><br><strong class="orange-text"> Транспорт:</strong> {{tour.transportType}} </span>    
+                      </div>
+                      <div class="col s12"> 
+                        <span class="left"><strong class="left orange-text">Даты: </strong> {{tour.datePlaces.dateTo | date:'dd.MM.yyyy'}} - {{tour.datePlaces.dateFrom | date:'dd.MM.yyyy'}} </span>
+                           
+                        </div> 
+                </div>
+            </div>
+               <ng-container *ngIf="_reload" > <app-schedule-order-page [tourId]="tour._id" ></app-schedule-order-page></ng-container>
+
+        </div>
+        <div class="modal-footer">
+            <app-modal-m-page                    
+            [type]="'Бронирование тура'"
+            *ngIf="tour?._id"
+            [objectId]="tour._id"
+            ></app-modal-m-page>    
+            <button type="button" 
+            (click)="onCancel()" 
+            class="modal-action waves-effect waves-black btn-flat"        
+            >Отмена
+        </button>           
+        </div>
+    </div>
+    
